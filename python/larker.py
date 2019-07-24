@@ -20,7 +20,6 @@ _grammar = r"""
 
     %ignore ANYTHINGELSE
 """
-_parser = lark.Lark(_grammar, start='prog')
 
 semicolon   = "><,.+-"
 streakable  = "<>+-"
@@ -94,6 +93,5 @@ class BFTransform(lark.Transformer):
         indent -= 1
         return self.prbrace("]")
 
+_parser = lark.Lark(_grammar, start='prog', parser="lalr", transformer=BFTransform())
 tree = _parser.parse(inputdata)
-
-BFTransform().transform(tree)
